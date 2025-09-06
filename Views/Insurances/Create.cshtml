@@ -1,0 +1,69 @@
+﻿@model PojisteniWebApp.Models.Insurance
+
+@{
+    ViewData["Title"] = "Nové pojištění";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (ViewBag.ClientId != null)
+            {
+                <div class="form-group">
+                    <label class="control-label">Klient</label>
+                    <input value="@ViewBag.ClientName" class="form-control" readonly />
+                    <input type="hidden" asp-for="ClientId" value="@ViewBag.ClientId" />
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="ClientId" class="control-label"></label>
+                    @* ZMĚNA: Načítáme položky z "ClientList" *@
+                    <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientList">
+                        <option value="">-- Vyberte klienta --</option>
+                    </select>
+                    <span asp-validation-for="ClientId" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" type="date" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" type="date" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Vytvořit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Zpět na přehled</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

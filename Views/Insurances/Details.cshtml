@@ -1,0 +1,48 @@
+﻿@model PojisteniWebApp.Models.Insurance
+
+@{
+    ViewData["Title"] = "Detail pojištění";
+}
+
+<dl class="row">
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Type)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Type)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Amount)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.Amount)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.StartDate)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.StartDate)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.EndDate)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.EndDate)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.Client)
+    </dt>
+    <dd class="col-sm-9">
+        @* TOTO JE TA OPRAVA: Vypisujeme vlastnost "FullName" *@
+        @Html.DisplayFor(model => model.Client.FullName)
+    </dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editovat</a> |
+    <a asp-action="Index">Zpět na přehled</a>
+</div>

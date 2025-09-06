@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Klient vytvořen";
+}
+
+<div class="text-center">
+    <p class="lead">Nový klient <strong>@ViewBag.NewClientName</strong> byl úspěšně založen v databázi.</p>
+    <hr />
+    <h4>Chcete přidat pojištění?</h4>
+    <div class="mt-4">
+        <a asp-controller="Insurances" asp-action="Create" asp-route-clientId="@ViewBag.NewClientId" class="btn btn-primary btn-lg">
+            Ano
+        </a>
+        <a asp-controller="Clients" asp-action="Index" class="btn btn-secondary btn-lg ml-2">
+            Ne
+        </a>
+    </div>
+</div>
