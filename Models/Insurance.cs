@@ -26,7 +26,7 @@ namespace PojisteniWebApp.Models
 
 
         [Required]
-        [Display(Name = "Klient")]
+        [Display(Name = "Pojištěnec")]
         public int ClientId { get; set; }
         public Client? Client { get; set; }
     }

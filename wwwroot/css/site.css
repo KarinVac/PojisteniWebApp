@@ -1,4 +1,3 @@
-
 @font-face {
     font-family: Poppins;
     src: url(../fonts/Poppins-Regular.ttf);
@@ -81,6 +80,7 @@ nav ul {
         margin: 0 5px;
         font-size: 1em;
         line-height: 4.3em;
+        white-space: nowrap; /* TOTO JSME PØIDALI, ABY SE TEXT NEZALAMOVAL */
     }
 
     nav ul a {
@@ -164,7 +164,7 @@ footer {
 }
 
 .centrovany {
-    text-align: ;
+    text-align:;
 }
 
 .reference-tlacitko {
@@ -240,7 +240,7 @@ a:hover {
     text-decoration: none;
     color: #00386B;
 }
+
 .action-links {
     white-space: nowrap;
 }
-
