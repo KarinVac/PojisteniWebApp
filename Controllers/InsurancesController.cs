@@ -74,10 +74,8 @@ namespace PojisteniWebApp.Controllers
                 _context.Add(insurance);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-
-            // --- ZMĚNA ZDE ---
-            // Sjednoceno na ViewBag.ClientList pro případ chyby ve formuláři
+            }                   
+            
             ViewBag.ClientList = new SelectList(_context.Client, "Id", "FullName", insurance.ClientId);
             return View(insurance);
         }
@@ -90,15 +88,16 @@ namespace PojisteniWebApp.Controllers
                 return NotFound();
             }
 
-            var insurance = await _context.Insurance.FindAsync(id);
+            var insurance = await _context.Insurance
+                                          .Include(i => i.Client)
+                                          .FirstOrDefaultAsync(i => i.Id == id);
+
             if (insurance == null)
             {
                 return NotFound();
             }
 
-            // --- ZMĚNA ZDE ---
-            // Sjednoceno na ViewBag.ClientList
-            ViewBag.ClientList = new SelectList(_context.Client, "Id", "FullName", insurance.ClientId);
+            ViewBag.ClientName = insurance.Client?.FullName;
             return View(insurance);
         }
 
@@ -118,6 +117,8 @@ namespace PojisteniWebApp.Controllers
                 {
                     _context.Update(insurance);
                     await _context.SaveChangesAsync();
+
+                    ViewBag.SuccessMessage = "Změny byly úspěšně uloženy.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,15 +128,15 @@ namespace PojisteniWebApp.Controllers
                     }
                     else
                     {
-                        throw;
+                        ViewBag.ErrorMessage = "Došlo k chybě při ukládání, zkuste to prosím znovu.";
                     }
-                }
-                return RedirectToAction(nameof(Index));
+                }                
             }
 
-            // --- ZMĚNA ZDE ---
-            // Sjednoceno na ViewBag.ClientList pro případ chyby ve formuláři
-            ViewBag.ClientList = new SelectList(_context.Client, "Id", "FullName", insurance.ClientId);
+            // Znovu načteme jméno klienta, aby se zobrazilo ve formuláři
+            var client = await _context.Client.FindAsync(insurance.ClientId);
+            ViewBag.ClientName = client?.FullName;
+
             return View(insurance);
         }
 

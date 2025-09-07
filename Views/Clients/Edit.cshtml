@@ -1,12 +1,26 @@
-﻿@model PojisteniWebApp.Models.Client
+﻿@model PojisteniWebApp.Models.ClientViewModel
 
 @{
     ViewData["Title"] = "Upravit údaje";
 }
-<hr />
+
+@* --- Zobrazení zpráv o úspěchu/chybě --- *@
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-4">        
+        <form asp-action="Edit" id="editForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -45,7 +59,8 @@
                 <span asp-validation-for="Zip" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Uložit" class="btn btn-primary" />
+                @* přidáno ID pro tlačítko *@
+                <input type="submit" value="Uložit" class="btn btn-primary" id="saveButton" />
             </div>
         </form>
     </div>
@@ -54,4 +69,29 @@
 <div>
     <a asp-action="Index">Zpět na přehled</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    @* --- JS kod pro tlačítko --- *@
+    <script>
+        // Počkáme, až se celá stránka načte
+        document.addEventListener("DOMContentLoaded", function() {
+            // Najdeme si formulář a tlačítko pro uložení podle jejich nových ID
+            const form = document.getElementById("editForm");
+            const saveButton = document.getElementById("saveButton");
+
+            // Tlačítko je na začátku neaktivní
+            saveButton.disabled = true;
+
+            // Přidáme "posluchače" na celý formulář, který bude sledovat jakýkoliv vstup
+            form.addEventListener("input", function() {
+                // Tlačítko se aktivuje, jakmile se ve formuláři něco změní
+                saveButton.disabled = false;
+            });
+        });
+    </script>
+}
 

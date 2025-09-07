@@ -1,81 +1,52 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using PojisteniWebApp.Data;
+using PojisteniWebApp.Interfaces;
 using PojisteniWebApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PojisteniWebApp.Controllers
 {
     [Authorize(Roles = UserRoles.Admin)]
-    public class ClientsController : Controller
+    public class ClientsController(IClientManager clientManager) : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IClientManager clientManager = clientManager;
 
-        public ClientsController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Clients
+        // Zobrazí seznam všech klientů
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Client.ToListAsync());
+            var clients = await clientManager.GetAllClients();
+            return View(clients);
         }
-              
-        // GET: Clients/Details/5
+
+        // Zobrazí detail jednoho klienta
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // TENTO DOTAZ UPRAVÍME:
-            var client = await _context.Client
-                .Include(c => c.Insurances) // Tímto načteme i související pojištění
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
+            if (id == null) return NotFound();
+            var client = await clientManager.FindClientById(id.Value);
+            return client == null ? NotFound() : View(client);
         }
 
-        // GET: Clients/Create
+        // Zobrazí formulář pro vytvoření nového klienta
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Clients/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // POST: Clients/Create
+        // Zpracuje odeslaný formulář pro vytvoření klienta
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,Street,City,Zip")] Client client)
+        public async Task<IActionResult> Create(ClientViewModel clientViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-
-                // TOTO JE ZMĚNA:
-                // Přesměrujeme na naši novou "úspěšnou" akci a předáme jí ID a jméno klienta
-                return RedirectToAction("CreateSuccess", new { newClientId = client.Id, newClientName = client.FullName });
+                var newClient = await clientManager.AddClient(clientViewModel);
+                // Po vytvoření přesměrujeme na stránku s potvrzením
+                return RedirectToAction("CreateSuccess", new { newClientId = newClient.Id, newClientName = newClient.FullName });
             }
-            return View(client);
+            return View(clientViewModel);
         }
 
-        // TUTO NOVOU METODU PŘIDEJ:
-        // Zobrazí potvrzovací stránku
+        // Zobrazí stránku s potvrzením o vytvoření
         public IActionResult CreateSuccess(int newClientId, string newClientName)
         {
             ViewBag.NewClientId = newClientId;
@@ -83,93 +54,57 @@ namespace PojisteniWebApp.Controllers
             return View();
         }
 
-        // GET: Clients/Edit/5
+        // Zobrazí formulář pro úpravu klienta
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Client.FindAsync(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-            return View(client);
+            if (id == null) return NotFound();
+            var client = await clientManager.FindClientById(id.Value);
+            return client == null ? NotFound() : View(client);
         }
 
-        // POST: Clients/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Zpracuje odeslaný formulář pro úpravu klienta 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Email,PhoneNumber,Street,City,Zip")] Client client)
+        public async Task<IActionResult> Edit(int id, ClientViewModel clientViewModel)
         {
-            if (id != client.Id)
+            if (id != clientViewModel.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var updatedClient = await clientManager.UpdateClient(clientViewModel);
+                if (updatedClient == null)
                 {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
+                    // Tento případ nastane, pokud byl klient mezitím smazán jiným uživatelem
+                    ViewBag.ErrorMessage = "Došlo k chybě, pojištěnec nebyl nalezen.";
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // Úspěšné uložení
+                    ViewBag.SuccessMessage = "Změny byly úspěšně uloženy.";
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(client);
+            }            
+            return View(clientViewModel);
         }
 
-        // GET: Clients/Delete/5
+        // Zobrazí stránku pro potvrzení smazání
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await _context.Client
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
+            if (id == null) return NotFound();
+            var client = await clientManager.FindClientById(id.Value);
+            return client == null ? NotFound() : View(client);
         }
 
-        // POST: Clients/Delete/5
+        // Provede samotné smazání klienta
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Client.FindAsync(id);
-            if (client != null)
-            {
-                _context.Client.Remove(client);
-            }
-
-            await _context.SaveChangesAsync();
+            await clientManager.RemoveClientWithId(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClientExists(int id)
-        {
-            return _context.Client.Any(e => e.Id == id);
         }
     }
 }
+

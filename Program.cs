@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PojisteniWebApp;
 using PojisteniWebApp.Data;
+using PojisteniWebApp.Interfaces;
+using PojisteniWebApp.Managers;
+using PojisteniWebApp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +23,15 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+// Zde øíkáme aplikaci, jaké nové nástroje má k dispozici.
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
+builder.Services.AddScoped<IClientManager, ClientManager>();
+
+
 var app = builder.Build();
-
-
 
 // Vytvoøí role "admin" a "user"
 using (var scope = app.Services.CreateScope())
@@ -36,9 +45,7 @@ using (var scope = app.Services.CreateScope())
     if (!await roleManager.RoleExistsAsync(UserRoles.User))
         await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
-
-    
-    // Tento uživatel se stane administrátorem.
+    // Tento uživatel je administrátor.
     string adminEmail = "admin@admin.cz";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -48,8 +55,6 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
     }
 }
-
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -66,7 +71,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -75,3 +79,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
