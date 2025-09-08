@@ -20,8 +20,7 @@ body {
     color: #414042;
     box-sizing: border-box;
     margin: 0;
-    padding: 100px 0px 0px 0px;
-    min-width: 960px;
+    padding: 100px 0px 0px 0px;    
 }
 
     body > header {
@@ -89,7 +88,7 @@ nav ul {
         margin: 0 5px;
         font-size: 1em;
         line-height: 4.3em;
-        white-space: nowrap; /* TOTO JSME PØIDALI, ABY SE TEXT NEZALAMOVAL */
+        white-space: nowrap;
     }
 
     nav ul a {
@@ -100,7 +99,7 @@ nav ul {
     }
 
         nav ul a:hover,
-        .aktivni a {
+        .active a {
             border-bottom: 2px solid #EF6534;
         }
 
@@ -161,80 +160,36 @@ footer {
         text-decoration: none;
     }
 
-.avatar {
-    float: right;
-    width: 300px;
-    padding-left: 10px;
-    filter: grayscale(1);
-}
-
-.cistic {
+.cleaner {
     clear: both;
 }
 
-.centrovany {
+.centered {
     text-align:;
 }
 
-.reference-tlacitko {
-    background: #70B73A;
-    color: white;
-    font-size: 0.9em;
-    text-decoration: none;
-    text-transform: uppercase;
-    padding: 12px 25px;
-    border-radius: 25px;
-}
-
-#reference a {
-    text-decoration: none;
-}
-
-    #reference a:hover {
-        text-decoration: none;
-    }
-
-.prihlasit-tlacitko {
+.login-button {
     background: #EF6534;
     padding: 10px 20px;
     border-radius: 20px;
 }
 
-    .prihlasit-tlacitko:hover,
-    .reference-tlacitko:hover,
-    .clanky-tlacitko:hover {
+    .login-button:hover,
+    .primary-button:hover {
         color: white;
         filter: brightness(115%) contrast(85%);
         border: 0;
     }
 
-.vlevo {
+.left {
     float: left;
-}
-
-#dovednosti td {
-    width: 33%;
-    padding: 10px;
-    vertical-align: top;
-    border: 1px solid gray;
-}
-
-#dovednosti {
-    border-collapse: collapse;
-}
-
-#reference img {
-    border: 1px solid gray;
-    padding: 6px;
-    box-shadow: 3px 3px 6px #999999;
-    margin-right: 6px;
 }
 
 a:hover {
     color: currentColor;
 }
 
-.clanky-tlacitko {
+.primary-button {
     background: #00386B;
     color: white;
     text-decoration: none;
@@ -245,7 +200,7 @@ a:hover {
     border: 0;
 }
 
-.client-odkaz {
+.client-link {
     text-decoration: none;
     color: #00386B;
 }
@@ -254,3 +209,4 @@ a:hover {
     white-space: nowrap;
 }
 
+   
