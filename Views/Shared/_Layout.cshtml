@@ -17,47 +17,50 @@
 
 <body>
     <header>
-        <div id="logo">
-            <h1><span>KV</span></h1>
-            <small>INSURANCE</small>
-        </div>
-        <nav>
-            <ul>
-                <li><a asp-controller="Home" asp-action="Index">Domů</a></li>
+        <div class="header-container">
+            <div id="logo">
+                <h1><span>KV</span></h1>
+                <small>INSURANCE</small>
+            </div>
+            <nav>
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index">Domů</a></li>
 
-                @if (User.IsInRole(UserRoles.Admin))
-                {
-                    @* Tyto odkazy uvidí POUZE admin *@
-                    <li><a asp-controller="Clients" asp-action="Index">Pojištěnci</a></li>
-                    <li><a asp-controller="Insurances" asp-action="Index">Pojištění</a></li>
-                }
-
-                <li><a asp-controller="Home" asp-action="About">O aplikaci</a></li>
-                <li><a asp-controller="Home" asp-action="Contact">Kontakt</a></li>
-
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    @if (User.IsInRole(UserRoles.User))
+                    @if (User.IsInRole(UserRoles.Admin))
                     {
-                        @* Tento odkaz uvidí POUZE přihlášený běžný uživatel *@
-                        <li><a asp-controller="Profile" asp-action="Index">Moje údaje</a></li>
+                        @* Tyto odkazy uvidí POUZE admin *@
+                        <li><a asp-controller="Clients" asp-action="Index">Pojištěnci</a></li>
+                        <li><a asp-controller="Insurances" asp-action="Index">Pojištění</a></li>
                     }
 
-                    @* Odkaz pro odhlášení (pro všechny přihlášené) *@
-                    <li>
-                        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" style="display: none;"></form>
+                    <li><a asp-controller="Home" asp-action="About">O aplikaci</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Kontakt</a></li>
 
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();" class="prihlasit-tlacitko">ODHLÁSIT SE</a>
-                    </li>
-                }
-                else
-                {
-                    @* Tyto odkazy uvidí POUZE nepřihlášený uživatel *@
-                    <li><a class="prihlasit-tlacitko" asp-controller="Account" asp-action="Login">PŘIHLÁSIT SE</a></li>
-                }
-            </ul>
-        </nav>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @if (User.IsInRole(UserRoles.User))
+                        {
+                            @* Tento odkaz uvidí POUZE přihlášený běžný uživatel *@
+                            <li><a asp-controller="Profile" asp-action="Index">Moje údaje</a></li>
+                        }
+
+                        @* Odkaz pro odhlášení (pro všechny přihlášené) *@
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" style="display: none;"></form>
+
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();" class="prihlasit-tlacitko">ODHLÁSIT SE</a>
+                        </li>
+                    }
+                    else
+                    {
+                        @* Tyto odkazy uvidí POUZE nepřihlášený uživatel *@
+                        <li><a class="prihlasit-tlacitko" asp-controller="Account" asp-action="Login">PŘIHLÁSIT SE</a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
     </header>
+
 
     <article>
         <header>

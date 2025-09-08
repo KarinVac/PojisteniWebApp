@@ -25,16 +25,25 @@ body {
 }
 
     body > header {
-        height: 100px;
+        height: 80px;
         width: 100%;
         background: #00386B;
         color: white;
-        display: flex;
-        justify-content: space-evenly;
         position: fixed;
         z-index: 10;
         top: 0;
     }
+
+.header-container {
+    max-width: 960px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    
 
 #logo {
     height: 40px;
@@ -244,3 +253,4 @@ a:hover {
 .action-links {
     white-space: nowrap;
 }
+
