@@ -1,9 +1,11 @@
-﻿@model PojisteniWebApp.Models.Insurance
+﻿@model PojisteniWebApp.Models.InsuranceViewModel
 
 @{
     ViewData["Title"] = "Detail pojištění";
 }
 
+<h4>Detail pojištění</h4>
+<hr />
 <dl class="row">
     <dt class="col-sm-3">
         @Html.DisplayNameFor(model => model.Type)
@@ -11,32 +13,28 @@
     <dd class="col-sm-9">
         @Html.DisplayFor(model => model.Type)
     </dd>
-
     <dt class="col-sm-3">
         @Html.DisplayNameFor(model => model.Amount)
     </dt>
     <dd class="col-sm-9">
         @Html.DisplayFor(model => model.Amount)
     </dd>
-
     <dt class="col-sm-3">
         @Html.DisplayNameFor(model => model.StartDate)
     </dt>
     <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.StartDate)
+        @Model.StartDate.ToShortDateString()
     </dd>
-
     <dt class="col-sm-3">
         @Html.DisplayNameFor(model => model.EndDate)
     </dt>
     <dd class="col-sm-9">
-        @Html.DisplayFor(model => model.EndDate)
+        @Model.EndDate.ToShortDateString()
     </dd>
-
     <dt class="col-sm-3">
         @Html.DisplayNameFor(model => model.ClientId)
     </dt>
-    <dd class="col-sm-9">        
+    <dd class="col-sm-9">
         @Html.DisplayFor(model => model.Client.FullName)
     </dd>
 </dl>
@@ -45,3 +43,4 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Editovat</a> |
     <a asp-action="Index">Zpět na přehled</a>
 </div>
+

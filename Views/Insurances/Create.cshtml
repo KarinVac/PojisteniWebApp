@@ -1,10 +1,9 @@
-﻿@model PojisteniWebApp.Models.Insurance
+﻿@model PojisteniWebApp.Models.InsuranceViewModel
 
 @{
     ViewData["Title"] = "Nové pojištění";
 }
 
-<hr />
 <div class="row">
     <div class="col-md-6">
         <form asp-action="Create">
@@ -13,7 +12,7 @@
             @if (ViewBag.ClientId != null)
             {
                 <div class="form-group">
-                    <label class="control-label">Klient</label>
+                    <label class="control-label">Pojištěnec</label>
                     <input value="@ViewBag.ClientName" class="form-control" readonly />
                     <input type="hidden" asp-for="ClientId" value="@ViewBag.ClientId" />
                 </div>
@@ -22,7 +21,6 @@
             {
                 <div class="form-group">
                     <label asp-for="ClientId" class="control-label"></label>
-                    @* ZMĚNA: Načítáme položky z "ClientList" *@
                     <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientList">
                         <option value="">-- Vyberte klienta --</option>
                     </select>

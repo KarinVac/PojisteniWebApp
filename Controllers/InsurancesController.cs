@@ -1,182 +1,122 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using PojisteniWebApp.Data;
+using PojisteniWebApp.Interfaces;
 using PojisteniWebApp.Models;
 using System.Threading.Tasks;
 
 namespace PojisteniWebApp.Controllers
 {
     [Authorize(Roles = UserRoles.Admin)]
-    public class InsurancesController : Controller
+    public class InsurancesController(IInsuranceManager insuranceManager, IClientManager clientManager) : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IInsuranceManager insuranceManager = insuranceManager;
+        private readonly IClientManager clientManager = clientManager; // pro seznam klientů
 
-        public InsurancesController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Insurances
+        // Zobrazí seznam všech pojištění
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Insurance.Include(i => i.Client);
-            return View(await applicationDbContext.ToListAsync());
+            var insurances = await insuranceManager.GetAllInsurances();
+            return View(insurances);
         }
 
-        // GET: Insurances/Details/5
+        // Zobrazí detail jednoho pojištění
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var insurance = await _context.Insurance
-                .Include(i => i.Client)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (insurance == null)
-            {
-                return NotFound();
-            }
-
-            return View(insurance);
+            if (id == null) return NotFound();
+            var insurance = await insuranceManager.FindInsuranceById(id.Value);
+            return insurance == null ? NotFound() : View(insurance);
         }
 
-        // GET: Insurances/Create
-        public IActionResult Create(int? clientId)
+        // Zobrazí formulář pro vytvoření nového pojištění
+        public async Task<IActionResult> Create(int? clientId)
         {
+            // Připraví seznam všech klientů pro dropdown
+            ViewBag.ClientList = new SelectList(await clientManager.GetAllClients(), "Id", "FullName", clientId);
+
+            // Pokud přicházíme s předvybraným klientem
             if (clientId.HasValue)
             {
-                var client = _context.Client.Find(clientId.Value);
+                var client = await clientManager.FindClientById(clientId.Value);
                 if (client != null)
                 {
                     ViewBag.ClientName = client.FullName;
                     ViewBag.ClientId = client.Id;
                 }
             }
-            else
-            {
-                ViewBag.ClientList = new SelectList(_context.Client, "Id", "FullName");
-            }
-
             return View();
         }
 
-        // POST: Insurances/Create
+        // Zpracuje odeslaný formulář pro vytvoření pojištění
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Amount,StartDate,EndDate,ClientId")] Insurance insurance)
+        public async Task<IActionResult> Create(InsuranceViewModel insuranceViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(insurance);
-                await _context.SaveChangesAsync();
+                await insuranceManager.AddInsurance(insuranceViewModel);
                 return RedirectToAction(nameof(Index));
-            }                   
-            
-            ViewBag.ClientList = new SelectList(_context.Client, "Id", "FullName", insurance.ClientId);
-            return View(insurance);
+            }
+            // Pokud formulář není validní, znovu načteme seznam klientů
+            ViewBag.ClientList = new SelectList(await clientManager.GetAllClients(), "Id", "FullName", insuranceViewModel.ClientId);
+            return View(insuranceViewModel);
         }
 
-        // GET: Insurances/Edit/5
+        // Zobrazí formulář pro úpravu pojištění
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+            var insurance = await insuranceManager.FindInsuranceById(id.Value);
+            if (insurance == null) return NotFound();
 
-            var insurance = await _context.Insurance
-                                          .Include(i => i.Client)
-                                          .FirstOrDefaultAsync(i => i.Id == id);
-
-            if (insurance == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.ClientName = insurance.Client?.FullName;
-            return View(insurance);
-        }
-
-        // POST: Insurances/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Amount,StartDate,EndDate,ClientId")] Insurance insurance)
-        {
-            if (id != insurance.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(insurance);
-                    await _context.SaveChangesAsync();
-
-                    ViewBag.SuccessMessage = "Změny byly úspěšně uloženy.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InsuranceExists(insurance.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        ViewBag.ErrorMessage = "Došlo k chybě při ukládání, zkuste to prosím znovu.";
-                    }
-                }                
-            }
-
-            // Znovu načteme jméno klienta, aby se zobrazilo ve formuláři
-            var client = await _context.Client.FindAsync(insurance.ClientId);
+            // Pro zobrazení jména klienta načteme i jeho data
+            var client = await clientManager.FindClientById(insurance.ClientId);
             ViewBag.ClientName = client?.FullName;
 
             return View(insurance);
         }
 
-        // GET: Insurances/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // Zpracuje odeslaný formulář pro úpravu pojištění
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, InsuranceViewModel insuranceViewModel)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id != insuranceViewModel.Id) return NotFound();
 
-            var insurance = await _context.Insurance
-                .Include(i => i.Client)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (insurance == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var updatedInsurance = await insuranceManager.UpdateInsurance(insuranceViewModel);
+                if (updatedInsurance == null)
+                {
+                    ViewBag.ErrorMessage = "Došlo k chybě, pojištění nebylo nalezeno.";
+                }
+                else
+                {
+                    ViewBag.SuccessMessage = "Změny byly úspěšně uloženy.";
+                }
             }
-
-            return View(insurance);
+            // Znovu načteme jméno klienta, aby se zobrazilo ve formuláři
+            var client = await clientManager.FindClientById(insuranceViewModel.ClientId);
+            ViewBag.ClientName = client?.FullName;
+            return View(insuranceViewModel);
         }
 
-        // POST: Insurances/Delete/5
+        // Zobrazí stránku pro potvrzení smazání
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            var insurance = await insuranceManager.FindInsuranceById(id.Value);
+            return insurance == null ? NotFound() : View(insurance);
+        }
+
+        // Provede samotné smazání pojištění
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var insurance = await _context.Insurance.FindAsync(id);
-            if (insurance != null)
-            {
-                _context.Insurance.Remove(insurance);
-            }
-
-            await _context.SaveChangesAsync();
+            await insuranceManager.RemoveInsuranceWithId(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool InsuranceExists(int id)
-        {
-            return _context.Insurance.Any(e => e.Id == id);
         }
     }
 }
+

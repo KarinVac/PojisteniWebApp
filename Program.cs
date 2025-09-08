@@ -25,10 +25,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-// Zde øíkáme aplikaci, jaké nové nástroje má k dispozici.
+// Scoped - pro každý dotaz od uživatele se vytvoøí jedna instance.
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 builder.Services.AddScoped<IClientManager, ClientManager>();
+
+
+builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
+builder.Services.AddScoped<IInsuranceManager, InsuranceManager>();
 
 
 var app = builder.Build();
@@ -45,7 +48,8 @@ using (var scope = app.Services.CreateScope())
     if (!await roleManager.RoleExistsAsync(UserRoles.User))
         await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
 
-    // Tento uživatel je administrátor.
+
+    // Tento uživatel se stane administrátorem.
     string adminEmail = "admin@admin.cz";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -55,6 +59,7 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
     }
 }
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -70,6 +75,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

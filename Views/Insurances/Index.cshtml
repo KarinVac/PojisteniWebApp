@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PojisteniWebApp.Models.Insurance>
+﻿@model IEnumerable<PojisteniWebApp.Models.InsuranceViewModel>
 
 @{
     ViewData["Title"] = "Pojištění";
@@ -24,7 +24,7 @@
                 @Html.DisplayNameFor(model => model.EndDate)
             </th>
             <th>
-                Klient
+                Pojištěnec
             </th>
             <th></th>
         </tr>
@@ -46,7 +46,7 @@
                     @Html.DisplayFor(modelItem => item.EndDate)
                 </td>
                 <td>
-                    @item.Client.FullName
+                    @item.Client?.FullName
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Editovat</a> |

@@ -7,11 +7,9 @@ namespace PojisteniWebApp
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
-        {
-            // Vytvoříme pravidlo pro překlad z Client na ClientViewModel a naopak.
-            CreateMap<Client, ClientViewModel>();
-            CreateMap<ClientViewModel, Client>();
-            
+        {            
+            CreateMap<Client, ClientViewModel>().ReverseMap();
+            CreateMap<Insurance, InsuranceViewModel>().ReverseMap();
         }
     }
 }
