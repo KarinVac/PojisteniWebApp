@@ -40,41 +40,23 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 50px; /* ZMÌNA: Z 15px na 50px, aby se to zarovnalo s obsahem */
 }
 
-    
 
 #logo {
-    height: 40px;
-    margin: auto 0 auto 20px;
+    /* Kontejner pro logo */
+    height: 60px; /* Dáme mu trochu víc místa na výšku */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: url('../images/logoKV.png') no-repeat;
-    background-size: 40px 40px;
+    align-items: center;
 }
 
-    #logo > * {
-        margin: 0 0 0 50px;
+    #logo img {
+        height: 50px; /* Nastavíme pevnou VÝŠKU loga */
+        width: auto; /* ŠÍØKA se dopoèítá automaticky, aby se logo nezdeformovalo */
     }
 
-    #logo h1 {
-        font-weight: normal;
-        font-size: 1.5em;
-        line-height: 1.2em;
-        color: white;
-    }
-
-        #logo h1 span {
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-    #logo small {
-        text-transform: uppercase;
-        font-size: 0.85em;
-    }
-
+   
 nav ul {
     margin: 0;
     list-style-type: none;
@@ -106,7 +88,7 @@ nav ul {
 article {
     margin: 0 auto;
     max-width: 960px;
-    padding: 50px 50px 10px 50px;
+    padding: 5px 50px 5px 50px;
 }
 
     article h1,
@@ -115,7 +97,7 @@ article {
     article h4,
     article h5,
     article h6 {
-        padding: 10px 0;
+        padding: 5px 0;
         color: #00386B;
     }
 
@@ -151,8 +133,7 @@ footer {
     height: 100px;
     color: white;
     background: #414042;
-    padding: 50px 0 0 0;
-    clip-path: polygon(0 30px, 100% 0, 100% 105%, 0 105%);
+    padding: 50px 0 0 0;   
 }
 
     footer a {
@@ -165,7 +146,7 @@ footer {
 }
 
 .centered {
-    text-align:;
+    text-align: center;
 }
 
 .login-button {

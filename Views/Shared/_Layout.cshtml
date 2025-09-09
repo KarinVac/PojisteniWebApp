@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Aplikace pojištění" />
     <title>KVinsurance</title>
-    <link rel="shortcut icon" href="~/images/ikona.ico" />
+    <link rel="shortcut icon" href="~/images/favicon-32x32.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @await RenderSectionAsync("CSS", required: false)
@@ -19,8 +19,9 @@
     <header>
         <div class="header-container">
             <div id="logo">
-                <h1><span>KV</span></h1>
-                <small>INSURANCE</small>
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/images/Gemini_Generated_Image_lbiiltlbiiltlbii.png" alt="Logo KV Insurance" />
+                </a>
             </div>
             <nav>
                 <ul>
@@ -32,8 +33,7 @@
                         <li><a asp-controller="Clients" asp-action="Index">Pojištěnci</a></li>
                         <li><a asp-controller="Insurances" asp-action="Index">Pojištění</a></li>
                     }
-
-                    <li><a asp-controller="Home" asp-action="About">O aplikaci</a></li>
+                   
                     <li><a asp-controller="Home" asp-action="Contact">Kontakt</a></li>
 
                     @if (SignInManager.IsSignedIn(User))
