@@ -1,74 +1,69 @@
 ﻿@model PojisteniWebApp.Models.InsuranceViewModel
-
 @{
-    ViewData["Title"] = "Oprava údajů";
+    ViewData["Title"] = "Upravit pojištění";
 }
 
-@* --- Zobrazení zpráv o úspěchu/chybě --- *@
-@if (ViewBag.SuccessMessage != null)
-{
-    <div class="alert alert-success" role="alert">
-        @ViewBag.SuccessMessage
+<section class="page-section">
+    <div class="container d-flex justify-content-center">
+        <div class="mx-auto" style="max-width:500px; width:100%;">
+            <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+            @if (ViewBag.SuccessMessage != null)
+            {
+                <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+            }
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
+            <div class="card shadow p-4">
+                <form asp-action="Edit" id="editForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Type" class="control-label"></label>
+                        <input asp-for="Type" class="form-control" />
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="StartDate" class="control-label"></label>
+                        <input asp-for="StartDate" class="form-control" type="date" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="EndDate" class="control-label"></label>
+                        <input asp-for="EndDate" class="form-control" type="date" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="ClientId" class="control-label"></label>
+                        <input value="@ViewBag.ClientName" class="form-control" readonly />
+                        <input type="hidden" asp-for="ClientId" />
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary" id="saveButton" disabled>Uložit</button>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">Zpět na přehled</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-}
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.ErrorMessage
-    </div>
-}
-
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit" id="editForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" type="date" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" type="date" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ClientId" class="control-label"></label>
-                <input value="@ViewBag.ClientName" class="form-control" readonly />
-                <input type="hidden" asp-for="ClientId" />
-            </div>
-
-            <div class="form-group mt-3">
-                @* přídáno ID pro tlačítko *@
-                <input type="submit" value="Uložit" class="btn btn-primary" id="saveButton" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Zpět na přehled</a>
-</div>
+</section>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    @* --- JS kod pro tlačítko --- *@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("editForm");
@@ -84,4 +79,3 @@
         });
     </script>
 }
-

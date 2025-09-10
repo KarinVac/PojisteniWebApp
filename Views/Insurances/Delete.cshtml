@@ -4,27 +4,26 @@
     ViewData["Title"] = "Odstranění";
 }
 
-<div>
-    <h4>Opravdu chcete pojištění odstranit?</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Odstranit" class="btn btn-danger" /> |
-        <a asp-action="Index">Zpět na přehled</a>
-    </form>
-</div>
+<section class="page-section">
+    <div class="container">
+        <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+        @* TENTO ŘÁDEK S KONTEJNEREM JSME PŘIDALI *@
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @* A TENTO TAKÉ *@
+                <div class="card shadow p-4 text-center">
+                    <h4>Opravdu chcete pojištění odstranit?</h4>
+                    <hr />                    
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger me-2">Odstranit</button>
+                        <a asp-action="Index" class="btn btn-secondary">Zpět na přehled</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
