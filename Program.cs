@@ -35,7 +35,7 @@ builder.Services.AddScoped<IInsuranceManager, InsuranceManager>();
 
 var app = builder.Build();
 
-// ZAVOL¡NÕ METODY PRO NAPLNÃNÕ DATAB¡ZE 
+// ZAVOL√ÅN√ç METODY PRO NAPLNƒöN√ç DATAB√ÅZE 
 await SeedDatabaseAsync(app);
 
 
@@ -63,7 +63,7 @@ app.MapRazorPages();
 app.Run();
 
 
-// NAPLNÃNÕ DATAB¡ZE (SEEDING) 
+// NAPLNƒöN√ç DATAB√ÅZE (SEEDING) 
 static async Task SeedDatabaseAsync(IHost host)
 {
     using (var scope = host.Services.CreateScope())
@@ -78,7 +78,7 @@ static async Task SeedDatabaseAsync(IHost host)
 
             await dbContext.Database.EnsureCreatedAsync();
 
-            // Vytvo¯enÌ rolÌ
+            // Vytvo≈ôen√≠ rol√≠
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
                 await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             if (!await roleManager.RoleExistsAsync(UserRoles.User))
@@ -89,14 +89,14 @@ static async Task SeedDatabaseAsync(IHost host)
             string adminPassword = "Heslo.123";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-            // Pokud admin neexistuje, vytvo¯Ìme ho
+            // Pokud admin neexistuje, vytvo≈ô√≠me ho
             if (adminUser == null)
             {
                 adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
                 await userManager.CreateAsync(adminUser, adminPassword);
-                logger.LogInformation("Admin ˙Ëet vytvo¯en.");
+                logger.LogInformation("Admin √∫ƒçet vytvo≈ôen.");
             }
-            // POKUD ADMIN EXISTUJE, ZKONTROLUJE A PÿÕPADNÃ OPRAVÕ HESLO
+            // POKUD ADMIN EXISTUJE, ZKONTROLUJE A P≈ò√çPADNƒö OPRAV√ç HESLO
             else
             {
                 if (!await userManager.CheckPasswordAsync(adminUser, adminPassword))
@@ -105,26 +105,26 @@ static async Task SeedDatabaseAsync(IHost host)
                     var result = await userManager.ResetPasswordAsync(adminUser, token, adminPassword);
                     if (result.Succeeded)
                     {
-                        logger.LogWarning("Heslo pro admina bylo resetov·no na v˝chozÌ hodnotu.");
+                        logger.LogWarning("Heslo pro admina bylo resetov√°no na v√Ωchoz√≠ hodnotu.");
                     }
                 }
             }
 
-            // zkontroluje, jestli m· admin roli
+            // zkontroluje, jestli m√° admin roli
             if (!await userManager.IsInRoleAsync(adminUser, UserRoles.Admin))
             {
                 await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
-                logger.LogInformation("Adminovi byla p¯idÏlena/potvrzena role 'Admin'.");
+                logger.LogInformation("Adminovi byla p≈ôidƒõlena/potvrzena role 'Admin'.");
             }
 
-            // Vytvo¯enÌ demo uûivatel˘
+            // Vytvo≈ôen√≠ demo u≈æivatel≈Ø
             if (!await dbContext.Client.AnyAsync())
             {
                 var demoUsersData = new List<(IdentityUser User, string Password, Client ClientInfo)>
                 {
-                    (new IdentityUser { UserName = "harry@potter.cz", Email = "harry@potter.cz", EmailConfirmed = true }, "Password.123", new Client { FirstName = "Harry", LastName = "Potter", Email = "harry@potter.cz", PhoneNumber = "123456789", Street = "ZobÌ 4", City = "Kvik·lkov", Zip = "12345" }),
-                    (new IdentityUser { UserName = "ron@weasley.cz", Email = "ron@weasley.cz", EmailConfirmed = true }, "Password.123", new Client { FirstName = "Ron", LastName = "Weasley", Email = "ron@weasley.cz", PhoneNumber = "987654321", Street = "DoupÏ 1", City = "VydrnÌk", Zip = "54321" }),
-                    (new IdentityUser { UserName = "hermiona@granger.cz", Email = "hermiona@granger.cz", EmailConfirmed = true }, "Password.123", new Client { FirstName = "Hermiona", LastName = "Granger", Email = "hermiona@granger.cz", PhoneNumber = "555666777", Street = "Hampstead 8", City = "Lond˝n", Zip = "67890" }),                   
+                    (new IdentityUser { UserName = "harry@potter.cz", Email = "harry@potter.cz", EmailConfirmed = true }, "Password.123", new Client { FirstName = "Harry", LastName = "Potter", Email = "harry@potter.cz", PhoneNumber = "123456789", Street = "Zob√≠ 4", City = "Kvik√°lkov", Zip = "12345" }),
+                    (new IdentityUser { UserName = "ron@weasley.cz", Email = "ron@weasley.cz", EmailConfirmed = true }, "Password.123", new Client { FirstName = "Ron", LastName = "Weasley", Email = "ron@weasley.cz", PhoneNumber = "987654321", Street = "Doupƒõ 1", City = "Vydrn√≠k", Zip = "54321" }),
+                    (new IdentityUser { UserName = "hermiona@granger.cz", Email = "hermiona@granger.cz", EmailConfirmed = true }, "Password.123", new Client { FirstName = "Hermiona", LastName = "Granger", Email = "hermiona@granger.cz", PhoneNumber = "555666777", Street = "Hampstead 8", City = "Lond√Ωn", Zip = "67890" }),                   
                 };
 
                 var clientsToSave = new List<Client>();
@@ -143,21 +143,21 @@ static async Task SeedDatabaseAsync(IHost host)
 
                 var insurances = new List<Insurance>
                 {
-                    new() { Type = "PojiötÏnÌ koötÏte", Amount = 10000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), ClientId = clientsToSave[0].Id },
-                    new() { Type = "PojiötÏnÌ auta", Amount = 20000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(6), ClientId = clientsToSave[0].Id },
-                    new() { Type = "PojiötÏnÌ auta", Amount = 50000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(5), ClientId = clientsToSave[1].Id },
-                    new() { Type = "éitovnÌ pojiötÏnÌ", Amount = 250000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(10), ClientId = clientsToSave[2].Id },
-                    new() { Type = "éitovnÌ pojiötÏnÌ", Amount = 250000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(10), ClientId = clientsToSave[2].Id }
+                    new() { Type = "Poji≈°tƒõn√≠ ko≈°tƒõte", Amount = 10000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), ClientId = clientsToSave[0].Id },
+                    new() { Type = "Poji≈°tƒõn√≠ auta", Amount = 20000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(6), ClientId = clientsToSave[0].Id },
+                    new() { Type = "Poji≈°tƒõn√≠ auta", Amount = 50000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(5), ClientId = clientsToSave[1].Id },
+                    new() { Type = "≈Ωivotn√≠ poji≈°tƒõn√≠", Amount = 250000, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(10), ClientId = clientsToSave[2].Id },
+                    
                 };
                 await dbContext.Insurance.AddRangeAsync(insurances);
                 await dbContext.SaveChangesAsync();
 
-                logger.LogInformation("Demo data byla ˙spÏönÏ vytvo¯ena.");
+                logger.LogInformation("Demo data byla √∫spƒõ≈°nƒõ vytvo≈ôena.");
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Nastala chyba p¯i vytv·¯enÌ ˙vodnÌch dat.");
+            logger.LogError(ex, "Nastala chyba p≈ôi vytv√°≈ôen√≠ √∫vodn√≠ch dat.");
         }
     }
 }
