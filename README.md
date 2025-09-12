@@ -14,9 +14,9 @@ Webová aplikace pro správu pojištěných osob a jejich pojistných smluv, vyt
 
 ## O Projektu
 
-Cílem projektu bylo vytvořit plně funkční informační systém pro pojišťovacího makléře. Aplikace umožňuje centrálně spravovat databázi klientů a jejich pojistných smluv. Důraz byl kladen na čistý kód, responzivní design a implementaci uživatelských rolí pro zabezpečení dat.
+Cílem projektu bylo vytvořit plně funkční informační systém pro pojišťovacího makléře. Aplikace umožňuje spravovat databázi klientů a jejich pojistných smluv. Důraz byl kladen na čistý kód, responzivní design a implementaci uživatelských rolí pro zabezpečení dat.
 
-Databáze se vytvoří a naplní demo daty **automaticky** při prvním spuštění aplikace.
+Databáze se vytvoří a naplní daty **automaticky** při prvním spuštění aplikace.
 
 ### Klíčové Funkce
 
@@ -26,7 +26,7 @@ Databáze se vytvoří a naplní demo daty **automaticky** při prvním spuště
 - **Systém uživatelských rolí** (Administrátor vs. Běžný uživatel).
   - **Administrátor** má plný přístup k datům všech klientů a pojištění. Může vše spravovat.
   - **Běžný uživatel** po přihlášení vidí pouze své vlastní údaje a pojištění.
-- **Responzivní design** pro pohodlné zobrazení na desktopu i mobilních zařízeních.
+- **Responzivní design** pro zobrazení na desktopu i mobilních zařízeních.
 
 ### Použité Technologie
 
