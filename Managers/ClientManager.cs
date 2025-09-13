@@ -12,8 +12,7 @@ namespace PojisteniWebApp.Managers
         private readonly IMapper mapper = mapper;
 
         public async Task<ClientViewModel?> FindClientById(int id)
-        {
-            // POUŽIJEME METODU, KTERÁ NAČTE KLIENTA I S JEHO POJIŠTĚNÍMI
+        {            
             Client? client = await clientRepository.GetByIdWithInsurancesAsync(id);
             return mapper.Map<ClientViewModel?>(client);
         }

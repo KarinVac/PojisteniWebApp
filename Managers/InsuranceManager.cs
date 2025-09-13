@@ -13,14 +13,12 @@ namespace PojisteniWebApp.Managers
 
         public async Task<List<InsuranceViewModel>> GetAllInsurances()
         {
-            // ZMĚNA: Voláme novou metodu, která načte pojištění i s klienty.
             var insurances = await insuranceRepository.GetAllWithClientsAsync();
             return mapper.Map<List<InsuranceViewModel>>(insurances);
         }
 
         public async Task<InsuranceViewModel?> FindInsuranceById(int id)
-        {
-            // ZMĚNA: Voláme novou metodu, která načte pojištění i s klientem.
+        {          
             var insurance = await insuranceRepository.GetByIdWithClientAsync(id);
             return mapper.Map<InsuranceViewModel?>(insurance);
         }

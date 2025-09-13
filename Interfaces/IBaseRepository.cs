@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace PojisteniWebApp.Interfaces
 {
-    // rozhraní pro všechny naše budoucí repozitáře.
        public interface IBaseRepository<TEntity> where TEntity : class
     {
         Task<TEntity?> FindById(int id);

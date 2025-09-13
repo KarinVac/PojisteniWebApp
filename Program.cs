@@ -35,7 +35,6 @@ builder.Services.AddScoped<IInsuranceManager, InsuranceManager>();
 
 var app = builder.Build();
 
-// ZAVOLÁNÍ METODY PRO NAPLNĚNÍ DATABÁZE 
 await SeedDatabaseAsync(app);
 
 
@@ -63,7 +62,6 @@ app.MapRazorPages();
 app.Run();
 
 
-// NAPLNĚNÍ DATABÁZE (SEEDING) 
 static async Task SeedDatabaseAsync(IHost host)
 {
     using (var scope = host.Services.CreateScope())
@@ -78,7 +76,6 @@ static async Task SeedDatabaseAsync(IHost host)
 
             await dbContext.Database.EnsureCreatedAsync();
 
-            // Vytvoření rolí
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
                 await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             if (!await roleManager.RoleExistsAsync(UserRoles.User))
@@ -89,14 +86,13 @@ static async Task SeedDatabaseAsync(IHost host)
             string adminPassword = "Heslo.123";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-            // Pokud admin neexistuje, vytvoříme ho
             if (adminUser == null)
             {
                 adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
                 await userManager.CreateAsync(adminUser, adminPassword);
                 logger.LogInformation("Admin účet vytvořen.");
             }
-            // POKUD ADMIN EXISTUJE, ZKONTROLUJE A PŘÍPADNĚ OPRAVÍ HESLO
+           
             else
             {
                 if (!await userManager.CheckPasswordAsync(adminUser, adminPassword))
@@ -110,14 +106,12 @@ static async Task SeedDatabaseAsync(IHost host)
                 }
             }
 
-            // zkontroluje, jestli má admin roli
             if (!await userManager.IsInRoleAsync(adminUser, UserRoles.Admin))
             {
                 await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
                 logger.LogInformation("Adminovi byla přidělena/potvrzena role 'Admin'.");
             }
 
-            // Vytvoření demo uživatelů
             if (!await dbContext.Client.AnyAsync())
             {
                 var demoUsersData = new List<(IdentityUser User, string Password, Client ClientInfo)>

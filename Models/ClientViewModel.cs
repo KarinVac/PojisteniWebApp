@@ -2,8 +2,6 @@
 
 namespace PojisteniWebApp.Models
 {
-    // Toto je naše DTO pro data klienta.
-    // Bude se používat ve formulářích a pohledech. Obsahuje všechna pravidla (validace).
     public class ClientViewModel
     {
         public int Id { get; set; }

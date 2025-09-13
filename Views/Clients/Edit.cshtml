@@ -76,16 +76,16 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    @* --- JS kod pro tlačítko --- *@
+    
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
                             const form = document.getElementById("editForm");
                             const saveButton = document.getElementById("saveButton");
 
-                            // Tlačítko je na začátku neaktivní
+                            
                             saveButton.disabled = true;
 
-                            // Aktivuje se, jakmile se ve formuláři něco změní
+                            
                             form.addEventListener("input", function() {
                                 saveButton.disabled = false;
                             });

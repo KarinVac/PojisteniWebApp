@@ -1,4 +1,4 @@
-/* Základní nastavení */
+
 body {
     padding-top: 70px;
     background-color: #f0f2f5;
@@ -6,7 +6,7 @@ body {
     color: #333;
 }
 
-/* Navigace */
+
 .navbar-primary {
     background-color: #005f73;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -33,10 +33,10 @@ body {
     filter: invert(100%) brightness(200%);
 }
 .navbar-primary .nav-item {
-    margin-left: 0.7rem; /* nebo margin-right podle potøeby */
+    margin-left: 0.7rem;
 }
 
-/* Karty */
+
 .card {
     border: none;
     border-radius: 8px;
@@ -52,9 +52,9 @@ body {
     color: #005f73;
 }
 
-/* Tabulky */
+
 .custom-table thead {
-    background-color: #005f73; /* ladí s menu */
+    background-color: #005f73; 
     color: white;
     border-bottom: none;
 }
@@ -63,7 +63,6 @@ body {
     background-color: #e9ecef;
 }
 
-/* Tlaèítka */
 .btn-primary {
     background-color: #0a9396;
     border-color: #0a9396;
@@ -75,7 +74,6 @@ body {
         border-color: #005f73;
     }
 
-/* Patièka */
 footer.bg-custom-dark {
     background-color: #212529;
     color: rgba(255,255,255,0.7);

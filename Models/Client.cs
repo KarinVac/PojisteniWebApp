@@ -2,8 +2,6 @@
 
 namespace PojisteniWebApp.Models
 {
-    // Toto je teď čistá databázová entita. Neobsahuje žádná pravidla pro zobrazení,
-    // - definuje, jak vypadá tabulka v databázi.
     public class Client
     {
         public int Id { get; set; }

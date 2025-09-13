@@ -4,7 +4,6 @@ namespace PojisteniWebApp.Models
 {
     public class RegisterViewModel
     {
-        // --- Údaje pro klienta ---
         [Required(ErrorMessage = "Vyplňte jméno")]
         [Display(Name = "Jméno")]
         public string FirstName { get; set; } = "";
@@ -29,7 +28,6 @@ namespace PojisteniWebApp.Models
         [Display(Name = "PSČ")]
         public string Zip { get; set; } = "";
 
-        // --- Údaje pro uživatelský účet ---
         [Required(ErrorMessage = "Vyplňte e-mailovou adresu")]
         [EmailAddress(ErrorMessage = "Neplatná e-mailová adresa")]
         [Display(Name = "Email")]

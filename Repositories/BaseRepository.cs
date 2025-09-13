@@ -8,17 +8,15 @@ using System.Threading.Tasks;
 
 namespace PojisteniWebApp.Repositories
 {
-    // Implementuje všechny metody z předpisu IBaseRepository a obsahuje logiku, která je pro všechny entity stejná.
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationDbContext dbContext;
         protected readonly DbSet<TEntity> dbSet;
 
-        // Pomocí "Dependency Injection" si vyžádáme přístup k databázi (ApplicationDbContext).
         public BaseRepository(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.dbSet = dbContext.Set<TEntity>(); // Získáme přístup ke konkrétní tabulce (např. Clients)
+            this.dbSet = dbContext.Set<TEntity>(); 
         }
 
         public async Task<TEntity?> FindById(int id)
@@ -52,9 +50,7 @@ namespace PojisteniWebApp.Repositories
                 return entry.Entity;
             }
             catch (DbUpdateConcurrencyException)
-            {
-                // Převádíme specifickou databázovou výjimku na obecnější,
-                // aby zbytek aplikace nebyl závislý na Entity Frameworku.
+            {               
                 throw new InvalidOperationException("Došlo ke konfliktu při souběžné úpravě záznamu.");
             }
         }
@@ -68,7 +64,6 @@ namespace PojisteniWebApp.Repositories
             }
             catch
             {
-                // Pokud smazání selže (např. kvůli vazbám v databázi), vrátíme stav entity zpět.
                 dbContext.Entry(entity).State = EntityState.Unchanged;
                 throw;
             }
