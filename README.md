@@ -1,8 +1,8 @@
-# Správa Pojištění - Webová Aplikace v ASP.NET Core
+# Insurance Management - Web Application in ASP.NET Core
 
-Webová aplikace pro správu pojištěných osob a jejich pojistných smluv, vytvořená v rámci mého studia v rekvalifikačním kurzu Programátor WWW aplikací v C# .NET.
+A web application for managing insured persons and their insurance policies, created as part of my studies in the Web Application Programmer C# .NET retraining course.
 
-## 🖼️ Ukázka Aplikace
+## 🖼️ Application Preview
 
 <p align="center">
 <img width="50%" alt="Screenshot_2" src="https://github.com/user-attachments/assets/f71b1c18-fe35-402b-babc-f9d135f7ae6b" />
@@ -11,48 +11,46 @@ Webová aplikace pro správu pojištěných osob a jejich pojistných smluv, vyt
 <img width="30%" alt="Screenshot_9" src="https://github.com/user-attachments/assets/118ac719-591a-4aa9-980a-3519085734d7" />
 </p>
 
+## About the Project
 
-## O Projektu
+The goal of the project was to create a fully functional information system for an insurance broker. The application allows managing a database of clients and their insurance policies. Emphasis was placed on clean code, responsive design, and the implementation of user roles for data security.
 
-Cílem projektu bylo vytvořit plně funkční informační systém pro pojišťovacího makléře. Aplikace umožňuje spravovat databázi klientů a jejich pojistných smluv. Důraz byl kladen na čistý kód, responzivní design a implementaci uživatelských rolí pro zabezpečení dat.
+The database is created and populated with data **automatically** upon the first run of the application.
 
-Databáze se vytvoří a naplní daty **automaticky** při prvním spuštění aplikace.
+### Key Features
 
-### Klíčové Funkce
+- **Complete client management** (CRUD - Create, Read, Update, Delete).
+- **Complete insurance policy management** (CRUD) with a direct link to a specific client.
+- **User registration and login.**
+- **User role system** (Administrator vs. Regular User).
+  - **Administrator** has full access to all client and policy data. Can manage everything.
+  - **Regular user** can only see their own details and policies after logging in.
+- **Responsive design** for display on desktop and mobile devices.
 
-- **Kompletní správa klientů** (CRUD - Vytvoření, Čtení, Editace, Smazání).
-- **Kompletní správa pojištění** (CRUD) s přímým navázáním na konkrétního klienta.
-- **Registrace a přihlašování uživatelů.**
-- **Systém uživatelských rolí** (Administrátor vs. Běžný uživatel).
-  - **Administrátor** má plný přístup k datům všech klientů a pojištění. Může vše spravovat.
-  - **Běžný uživatel** po přihlášení vidí pouze své vlastní údaje a pojištění.
-- **Responzivní design** pro zobrazení na desktopu i mobilních zařízeních.
-
-### Použité Technologie
+### Technologies Used
 
 - **Backend:** C#, ASP.NET Core MVC, Entity Framework Core
 - **Frontend:** HTML, CSS, Bootstrap
-- **Databáze:** MS-SQL (prostřednictvím SQL Server LocalDB)
-- **Autentizace & Autorizace:** ASP.NET Core Identity
-- **Další nástroje:** AutoMapper, Git, Visual Studio
+- **Database:** MS-SQL (via SQL Server LocalDB)
+- **Authentication & Authorization:** ASP.NET Core Identity
+- **Other Tools:** AutoMapper, Git, Visual Studio
 
-## 🚀 Spuštění Projektu
+## 🚀 Running the Project
 
-1. Naklonujte si repozitář: `git clone https://github.com/KarinVac/PojisteniWebApp.git`
-2. Otevřete projekt ve Visual Studiu.
-3. Spusťte aplikaci stisknutím klávesy **F5**.
-4. Při prvním spuštění se automaticky vytvoří databáze a naplní se demo daty níže.
+1. Clone the repository: `git clone https://github.com/KarinVac/PojisteniWebApp.git`
+2. Open the project in Visual Studio.
+3. Run the application by pressing **F5**.
+4. On the first run, the database will be created and populated with the demo data below.
 
-## 🔐  Účty pro vyzkoušení
+## 🔐 Test Accounts
 
-Pro otestování funkcionality aplikace můžete použít následující předvytvořené účty:
+To test the application's functionality, you can use the following pre-created accounts:
 
-| Role | Email | Heslo | Popis |
+| Role | Email | Password | Description |
 | :--- | :--- | :--- | :--- |
-| **Administrátor** | `admin@admin.com` | `Heslo.123` | Vidí vše, může vše editovat a mazat. |
-| **Uživatel** | `harry@potter.cz` | `Password.123` | Vidí jen svůj profil a svá pojištění. |
-| **Uživatel**| `ron@weasley.cz` | `Password.123` | Vidí jen svůj profil a svá pojištění. |
-| **Uživatel** | `hermiona@granger.cz`| `Password.123` | Vidí jen svůj profil a svá pojištění. |
+| **Administrator** | `admin@admin.com` | `Heslo.123` | Sees everything, can edit and delete all data. |
+| **User** | `harry@potter.cz` | `Password.123` | Sees only their own profile and policies. |
+| **User** | `ron@weasley.cz` | `Password.123` | Sees only their own profile and policies. |
+| **User** | `hermiona@granger.cz`| `Password.123` | Sees only their own profile and policies. |
 
-Samozřejmě je také možné si registrací vytvořit vlastního uživatele, který automaticky získá roli "Uživatel".
-
+Of course, you can also create your own user by registering, who will automatically be assigned the "User" role.
