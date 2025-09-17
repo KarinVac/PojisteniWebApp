@@ -8,7 +8,7 @@ using PojisteniWebApp.Models;
 using PojisteniWebApp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Environment.EnvironmentName = "Production";
+
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
