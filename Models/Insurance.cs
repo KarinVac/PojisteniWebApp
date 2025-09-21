@@ -11,6 +11,7 @@ namespace PojisteniWebApp.Models
         public string Type { get; set; } = "";
 
         [Required]
+        [Range(0, 999999999, ErrorMessage = "Částka musí být kladné číslo.")]
         [Display(Name = "Částka")]
         public int Amount { get; set; }
 

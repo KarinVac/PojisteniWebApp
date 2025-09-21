@@ -29,7 +29,7 @@ namespace PojisteniWebApp.Controllers
         public async Task<IActionResult> Create(int? clientId)
         {
             ViewBag.ClientList = new SelectList(await clientManager.GetAllClients(), "Id", "FullName", clientId);
-                      
+
             if (clientId.HasValue)
             {
                 var client = await clientManager.FindClientById(clientId.Value);
@@ -46,15 +46,22 @@ namespace PojisteniWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InsuranceViewModel insuranceViewModel)
         {
+            // validace záporné částky
+            if (insuranceViewModel.Amount < 0)
+            {
+                ModelState.AddModelError(nameof(insuranceViewModel.Amount), "Částka nesmí být záporná.");
+            }
+
             if (ModelState.IsValid)
             {
                 await insuranceManager.AddInsurance(insuranceViewModel);
                 return RedirectToAction(nameof(Index));
-            }            
+            }
+
             ViewBag.ClientList = new SelectList(await clientManager.GetAllClients(), "Id", "FullName", insuranceViewModel.ClientId);
             return View(insuranceViewModel);
         }
-                
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -73,6 +80,12 @@ namespace PojisteniWebApp.Controllers
         {
             if (id != insuranceViewModel.Id) return NotFound();
 
+            // validace záporné částky
+            if (insuranceViewModel.Amount < 0)
+            {
+                ModelState.AddModelError(nameof(insuranceViewModel.Amount), "Částka nesmí být záporná.");
+            }
+
             if (ModelState.IsValid)
             {
                 var updatedInsurance = await insuranceManager.UpdateInsurance(insuranceViewModel);
@@ -84,7 +97,8 @@ namespace PojisteniWebApp.Controllers
                 {
                     ViewBag.SuccessMessage = "Změny byly úspěšně uloženy.";
                 }
-            }           
+            }
+
             var client = await clientManager.FindClientById(insuranceViewModel.ClientId);
             ViewBag.ClientName = client?.FullName;
             return View(insuranceViewModel);
@@ -106,4 +120,3 @@ namespace PojisteniWebApp.Controllers
         }
     }
 }
-

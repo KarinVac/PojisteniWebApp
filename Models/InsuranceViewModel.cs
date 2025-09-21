@@ -13,6 +13,7 @@ namespace PojisteniWebApp.Models
 
         [Required(ErrorMessage = "Vyplňte částku")]
         [Display(Name = "Částka")]
+        [Range(0, 999999999, ErrorMessage = "Částka musí být kladné číslo.")]
         public int Amount { get; set; }
 
         [Required(ErrorMessage = "Vyplňte datum začátku platnosti")]
