@@ -2,10 +2,6 @@
 
 A web application for managing insured persons and their insurance policies, created as part of my studies in the Web Application Programmer C# .NET retraining course.
 
-## 🚀 Live Demo
-
-**-->[View Live Demo](https://pojisteniwebapp-crhma4hcc3hje6bb.westeurope-01.azurewebsites.net)**<--
-
 ## 🖼️ Application Preview
 
 <p align="center">
