@@ -1,0 +1,77 @@
+﻿@model PojisteniWebApp.Models.Client
+
+@{
+    ViewData["Title"] = "Moje údaje";
+}
+
+<section class="page-section">
+    <div class="container d-flex justify-content-center">
+        <div class="mx-auto" style="max-width:900px; width:100%;">
+
+            <div class="card shadow p-4 mb-4">
+
+                <h2 class="text-center mb-4">Vítejte, @Model.FirstName</h2>
+                <p class="text-center">Zde najdete přehled vašich osobních údajů a sjednaných pojištění.</p>
+
+                <hr class="my-4" />
+
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="mb-3">Osobní údaje</h5>
+                        <dl class="row">
+                            <dt class="col-sm-3">Jméno:</dt>
+                            <dd class="col-sm-9">@Model.FirstName</dd>
+
+                            <dt class="col-sm-3">Příjmení:</dt>
+                            <dd class="col-sm-9">@Model.LastName</dd>
+
+                            <dt class="col-sm-3">Adresa:</dt>
+                            <dd class="col-sm-9">@Model.Street, @Model.City, @Model.Zip</dd>
+
+                            <dt class="col-sm-3">Telefon:</dt>
+                            <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+                            <dt class="col-sm-3">Email:</dt>
+                            <dd class="col-sm-9">@Model.Email</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <img src="~/images/user_logo.png" class="img-fluid rounded mb-3 shadow-sm"
+                             alt="Profilová fotka" style="max-width: 150px;" />
+                    </div>
+                </div>
+                <br />
+
+                <h5 class="mb-3">Vaše sjednaná pojištění</h5>
+                @if (Model.Insurances.Any())
+                {
+                    <table class="table custom-table mt-3">
+                        <thead>
+                            <tr>
+                                <th>Předmět</th>
+                                <th>Částka</th>
+                                <th>Platnost od</th>
+                                <th>Platnost do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var insurance in Model.Insurances)
+                            {
+                                <tr>
+                                    <td>@insurance.Type</td>
+                                    <td>@insurance.Amount.ToString("N0") Kč</td>
+                                    <td>@insurance.StartDate.ToShortDateString()</td>
+                                    <td>@insurance.EndDate.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted">Zatím nemáte sjednané žádné pojištění.</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PojisteniWebApp
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - PojištěníApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-primary fixed-top">
+        <div class="container-fluid px-4" style="max-width:1200px;">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">PojištěníApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Domů</a>
+                    </li>
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @if (User.IsInRole(UserRoles.Admin))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Clients" asp-action="Index">Pojištěnci</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Insurances" asp-action="Index">Pojištění</a>
+                            </li>
+                        }
+                        else if (User.IsInRole(UserRoles.User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Contact">Kontakt</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Profile" asp-action="Index">Moje údaje</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-link nav-link d-flex align-items-center">
+                                        <img src="~/images/box-arrow-in-right.svg" alt="Odhlásit" class="me-1 nav-icon" />
+                                        Odhlásit
+                                    </button>
+                                </form>
+
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" asp-controller="Account" asp-action="Login">
+                                <img src="~/images/person-circle.svg" alt="Přihlásit" class="me-1 nav-icon" />
+                                Přihlásit
+                            </a>
+
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+    <main class="container py-4 flex-grow-1" style="max-width:1200px;">
+        @RenderBody()
+    </main>
+
+   
+    <footer class="bg-custom-dark text-white text-center py-3">
+        <div class="container" style="max-width:1200px;">
+            <small>Vytvořila &copy;Karin Vaculíková 2025</small>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

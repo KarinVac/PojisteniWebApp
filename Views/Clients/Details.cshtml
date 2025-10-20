@@ -1,0 +1,88 @@
+﻿@model PojisteniWebApp.Models.ClientViewModel
+
+@{
+    ViewData["Title"] = "Detail pojištěnce";
+}
+
+<section class="page-section">
+    <div class="container d-flex justify-content-center">
+        <div class="mx-auto" style="max-width:900px; width:100%;">
+            <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+                        
+            <div class="card shadow p-4 mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="mb-3">@Model.FullName</h4>
+                            <dl class="row">
+                                <dt class="col-sm-3">Email:</dt>
+                                <dd class="col-sm-9">@Model.Email</dd>
+                                <dt class="col-sm-3">Telefon:</dt>
+                                <dd class="col-sm-9">@Model.PhoneNumber</dd>
+                                <dt class="col-sm-3">Adresa:</dt>
+                                <dd class="col-sm-9">@Model.Street, @Model.City, @Model.Zip</dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <img src="~/images/user_logo.png" class="img-fluid rounded mb-3 shadow-sm"
+                                 alt="Profilová fotka" style="max-width: 150px;" />
+                        </div>
+                    </div>
+                    
+                </div>
+            
+
+                <div class="card-body">
+                    <h5 class="mb-3">Sjednaná pojištění</h5>
+                    @if (Model.Insurances != null && Model.Insurances.Any())
+                    {
+                        <table class="table mt-3">
+                            <thead>
+                                <tr>
+                                    <th>Předmět</th>
+                                    <th>Částka</th>
+                                    <th>Platnost od</th>
+                                    <th>Platnost do</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var insurance in Model.Insurances)
+                                {
+                                    <tr>
+                                        <td>@insurance.Type</td>
+                                        <td>@insurance.Amount.ToString("N0") Kč</td>
+                                        <td>@insurance.StartDate.ToShortDateString()</td>
+                                        <td>@insurance.EndDate.ToShortDateString()</td>
+                                        <td class="action-links text-end">
+                                            <a asp-controller="Insurances" asp-action="Details" asp-route-id="@insurance.Id">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Tento pojištěnec zatím nemá sjednané žádné pojištění.</p>
+                    }
+
+                    <hr class="my-4" />
+                    <div class="text-center">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                            Editovat pojištěnce
+                        </a>
+                        <a asp-controller="Insurances" asp-action="Create" asp-route-clientId="@Model.Id" class="btn btn-success ms-2">
+                            Přidat nové pojištění
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">
+                            Zpět na seznam
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+

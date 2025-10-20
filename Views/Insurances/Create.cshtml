@@ -1,0 +1,70 @@
+﻿@model PojisteniWebApp.Models.InsuranceViewModel
+@{
+    ViewData["Title"] = "Nové pojištění";
+}
+
+<section class="page-section">
+    <div class="container d-flex justify-content-center">
+        <div class="mx-auto" style="max-width:500px; width:100%;">
+            <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+            <div class="card shadow p-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    @if (ViewBag.ClientId != null)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Pojištěnec</label>
+                            <input value="@ViewBag.ClientName" class="form-control" readonly />
+                            <input type="hidden" asp-for="ClientId" value="@ViewBag.ClientId" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label asp-for="ClientId" class="form-label"></label>
+                            <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientList">
+                                <option value="">-- Vyberte klienta --</option>
+                            </select>
+                            <span asp-validation-for="ClientId" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <div class="mb-3">
+                        <label asp-for="Type" class="form-label"></label>
+                        <input asp-for="Type" class="form-control" />
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Amount" class="form-label"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="StartDate" class="form-label"></label>
+                        <input asp-for="StartDate" class="form-control" type="date" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="EndDate" class="form-label"></label>
+                        <input asp-for="EndDate" class="form-control" type="date" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary me-2">Vytvořit</button>
+                        <a asp-action="Index" class="btn btn-secondary">Zpět na přehled</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

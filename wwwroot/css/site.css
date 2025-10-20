@@ -1,0 +1,83 @@
+
+body {
+    padding-top: 70px;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+
+.navbar-primary {
+    background-color: #005f73;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+    .navbar-primary .navbar-brand,
+    .navbar-primary .nav-link {
+        color: white;
+    }
+
+        .navbar-primary .nav-link:hover,
+        .navbar-primary .nav-link.active {
+            color: white;
+            filter: brightness(150%);
+        }
+
+
+    .navbar-primary .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+.nav-icon {
+    height: 16px;
+    width: 16px;
+    filter: invert(100%) brightness(200%);
+}
+.navbar-primary .nav-item {
+    margin-left: 0.7rem;
+}
+
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #005f73;
+}
+
+
+.custom-table thead {
+    background-color: #005f73; 
+    color: white;
+    border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.btn-primary {
+    background-color: #0a9396;
+    border-color: #0a9396;
+    font-weight: 600;
+}
+
+    .btn-primary:hover {
+        background-color: #005f73;
+        border-color: #005f73;
+    }
+
+footer.bg-custom-dark {
+    background-color: #212529;
+    color: rgba(255,255,255,0.7);
+}
+
+
+

@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Vítejte";
+}
+
+<div class="container mt-4">
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Správa pojištění jednoduše a přehledně</h1>
+
+            @if (User.IsInRole(UserRoles.Admin))
+            {
+                <p class="fs-4">
+                    Vítejte v aplikaci navržené pro snadnou evidenci vašich klientů a jejich pojistných smluv.
+                    Přidejte nového pojištěnce, spravujte jeho pojistky a mějte dokonalý přehled o všem důležitém.
+                </p>
+                <a class="btn btn-primary btn-lg mt-3" asp-controller="Clients" asp-action="Index">
+                    Přejít na seznam pojištěnců
+                </a>
+            }
+            else
+            {
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <p class="fs-4">
+                        Vítejte v aplikaci, kde naleznete přehled svých sjednaných pojištění a osobních údajů.
+                        Přihlaste se ke svému účtu a mějte vždy aktuální informace na jednom místě.
+                    </p>
+                    <a class="btn btn-primary btn-lg mt-3" asp-controller="Account" asp-action="Login">
+                        Přihlásit se
+                    </a>
+                }
+                else
+                {
+                    <p class="fs-4">
+                        Vítejte v aplikaci, kde naleznete přehled svých sjednaných pojištění a osobních údajů.
+                    </p>
+                    <a class="btn btn-primary btn-lg mt-3" asp-controller="Profile" asp-action="Index" asp-route-id="@User.Identity.Name">
+                        Moje údaje
+                    </a>
+                }
+            }
+        </div>
+    </div>
+</div>

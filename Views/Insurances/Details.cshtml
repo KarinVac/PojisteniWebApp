@@ -1,0 +1,32 @@
+﻿@model PojisteniWebApp.Models.InsuranceViewModel
+
+@{
+    ViewData["Title"] = "Detail pojištění";
+}
+
+<section class="page-section">
+    <div class="container d-flex justify-content-center">
+        <div class="mx-auto" style="max-width:500px; width:100%;">
+            <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+            <div class="card shadow p-4 mb-4">
+                <div class="card-body">
+                    <p><strong>Předmět pojištění:</strong> @Model.Type</p>
+                    <p><strong>Částka:</strong> @Model.Amount</p>
+                    <p><strong>Platnost od:</strong> @Model.StartDate.ToShortDateString()</p>
+                    <p><strong>Platnost do:</strong> @Model.EndDate.ToShortDateString()</p>
+                    <p><strong>Pojištěnec:</strong> @Model.Client?.FullName</p>
+
+                    <div class="mt-3">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                            Editovat
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">
+                            Zpět na přehled
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

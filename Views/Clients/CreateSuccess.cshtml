@@ -1,0 +1,31 @@
+﻿@model PojisteniWebApp.Models.ClientViewModel
+
+@{
+    ViewData["Title"] = "Pojištěnec vytvořen";
+}
+
+<section class="page-section">
+    <div class="container d-flex justify-content-center">
+        <div class="mx-auto" style="max-width:600px; width:100%;">
+            <div class="card shadow p-4 text-center">
+                <h2 class="mb-3">Pojištěnec vytvořen</h2>
+                <p>
+                    Nový klient <strong>@ViewBag.NewClientName</strong> byl úspěšně založen v databázi.
+                </p>
+
+                <h4 class="mt-4 mb-3">Chcete přidat pojištění?</h4>
+                <div class="d-flex justify-content-center">
+                    <a asp-controller="Insurances" asp-action="Create"
+                       asp-route-clientId="@ViewBag.NewClientId"
+                       class="btn btn-primary me-2">
+                        Ano
+                    </a>
+                    <a asp-controller="Clients" asp-action="Index"
+                       class="btn btn-secondary">
+                        Ne
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

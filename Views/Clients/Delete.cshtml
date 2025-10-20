@@ -1,0 +1,27 @@
+﻿@model PojisteniWebApp.Models.ClientViewModel
+
+@{
+    ViewData["Title"] = "Odstranění";
+}
+
+<section class="page-section">
+    <div class="container">
+        <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">               
+                <div class="card shadow p-4 text-center">
+                    <h4>Opravdu chcete odstranit pojištěnce <b>@Model.FirstName @Model.LastName</b>?</h4>
+                    <hr />                  
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger me-2">Odstranit</button>
+                        <a asp-action="Index" class="btn btn-secondary">Zpět na přehled</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
