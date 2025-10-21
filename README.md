@@ -2,6 +2,10 @@
 
 A web application for managing insured persons and their insurance policies, created as part of my studies in the Web Application Programmer C# .NET retraining course.
 
+## 🚀 Live Demo
+
+**-->[View Live Demo](http://karinvac-001-site1.ktempurl.com/)**<--
+
 ## 🖼️ Application Preview
 
 <p align="center">
